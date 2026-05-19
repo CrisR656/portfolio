@@ -1,0 +1,409 @@
+/* ============================================================
+   Cristóbal Riego Hunt — portfolio
+   Plain HTML + CSS. No build step. No JavaScript.
+   ============================================================ */
+
+:root {
+  --bg:          #f8f6f2;
+  --ink:         #1a1a18;
+  --rule:        #ddd9d3;
+
+  /* Set by tweaks.jsx — sober accent, near-monochrome by default. */
+  --accent-ink:  #1a1a18;
+  --accent-rule: #ddd9d3;
+
+  --serif:       "EB Garamond", "Iowan Old Style", Georgia, serif;
+  --sans:        "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+                 Arial, sans-serif;
+
+  --measure:     680px;      /* ~68ch at body size */
+  --measure-wide: 720px;
+
+  --pad-top:     80px;
+  --pad-side:    32px;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.75;
+  font-feature-settings: "kern", "liga", "onum";
+}
+
+/* ---------- Layout container ---------- */
+
+.page {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: var(--pad-top) var(--pad-side) 120px;
+}
+
+.page--essay {
+  max-width: var(--measure-wide);
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 56px;
+}
+
+.site-header__identity {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.site-header__name {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 400;
+  margin: 0;
+  letter-spacing: 0.005em;
+}
+
+.site-header__role {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+
+.site-header__contact {
+  font-family: var(--sans);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Header divider (Tweaks-controlled) ----------
+   Lives in the markup as <div class="header-divider" data-asterism="✻"></div>;
+   the data-divider attribute on <html> picks which variant renders. */
+
+.header-divider {
+  margin: -24px 0 40px;     /* sits between header (mb:56) and bio */
+  height: 1px;
+  border: 0;
+  background: transparent;
+}
+:root[data-divider="line"] .header-divider {
+  background: var(--accent-rule);
+}
+:root[data-divider="asterism"] .header-divider {
+  background: transparent;
+  height: auto;
+  margin: -16px 0 36px;
+  text-align: center;
+  font-family: var(--serif);
+  font-size: 15px;
+  letter-spacing: 0.9em;          /* spreads the three marks */
+  padding-left: 0.9em;            /* counter the trailing tracking */
+  color: var(--accent-ink);
+  opacity: 0.7;
+}
+:root[data-divider="asterism"] .header-divider::before {
+  content: "✻ ✻ ✻";
+}
+:root[data-divider="none"] .header-divider {
+  display: none;
+}
+
+/* ---------- Bio ---------- */
+
+.bio {
+  margin: 0 0 48px;
+  max-width: 620px;
+}
+
+.bio p {
+  margin: 0 0 1.25em;
+}
+
+.bio p:last-child {
+  margin-bottom: 0;
+}
+
+/* Subtle transition between bio and the essay list */
+.bio-divider {
+  border: 0;
+  border-top: 1px solid var(--accent-rule);
+  margin: 0 0 40px;
+  width: 100%;
+}
+
+/* ---------- Index essay list ---------- */
+
+.works {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: work;
+}
+
+.works__item {
+  position: relative;
+  margin: 0 0 2.75rem;
+  counter-increment: work;
+}
+
+.works__item:last-child {
+  margin-bottom: 0;
+}
+
+/* Roman numerals — appear only when Tweaks toggle is on. */
+:root[data-numerals="on"] .works__item::before {
+  content: counter(work, upper-roman) ".";
+  position: absolute;
+  left: -3.25rem;
+  top: 0.05em;
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-ink);
+  opacity: 0.85;
+  /* Hide the marker when the viewport is too narrow to hold it in the margin */
+}
+@media (max-width: 760px) {
+  :root[data-numerals="on"] .works__item::before {
+    position: static;
+    display: block;
+    margin-bottom: 0.25em;
+  }
+}
+
+.works__title {
+  display: inline-block;
+  font-family: var(--serif);
+  font-size: 24px;
+  line-height: 1.25;
+  font-weight: 400;
+  margin: 0 0 0.35em;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.works__frame {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--ink);
+  opacity: 0.78;
+  letter-spacing: 0.01em;
+  margin: 0;
+  max-width: 56ch;
+}
+
+/* ---------- Links ---------- */
+
+a {
+  color: inherit;
+  text-decoration: none;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+a:hover,
+a:focus-visible {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+a:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: 4px;
+}
+
+/* ---------- Back link on essay pages ---------- */
+
+.back {
+  display: inline-block;
+  font-family: var(--sans);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  margin-bottom: 56px;
+}
+
+/* ---------- Essay page typography ---------- */
+
+.essay-header {
+  margin-bottom: 48px;
+}
+
+.essay-title {
+  font-family: var(--serif);
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: 0.002em;
+  margin: 0 0 0.6em;
+}
+
+.essay-rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  width: 56px;
+  margin: 0 0 20px;
+}
+
+.essay-frame {
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  opacity: 0.78;
+  margin: 0;
+  max-width: 56ch;
+}
+
+.essay-body {
+  font-size: 19px;
+  line-height: 1.75;
+}
+
+.essay-body p {
+  margin: 0 0 1.3em;
+}
+
+.essay-body p:last-child {
+  margin-bottom: 0;
+}
+
+.essay-body em,
+.essay-body i {
+  font-style: italic;
+}
+
+/* Optional dropcap on first paragraph of an essay. Subtle, not theatrical. */
+.essay-body > p:first-of-type::first-letter {
+  font-family: var(--serif);
+  font-size: 3.4em;
+  line-height: 0.92;
+  float: left;
+  padding: 0.06em 0.08em 0 0;
+  font-weight: 400;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 640px) {
+  :root {
+    --pad-top: 56px;
+    --pad-side: 20px;
+  }
+
+  body {
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  .site-header {
+    margin-bottom: 40px;
+  }
+
+  .site-header__name {
+    font-size: 20px;
+  }
+
+  .essay-title {
+    font-size: 26px;
+  }
+
+  .works__title {
+    font-size: 21px;
+  }
+
+  .works__item {
+    margin-bottom: 2.25rem;
+  }
+
+  .essay-body {
+    font-size: 18px;
+    line-height: 1.72;
+  }
+
+  .essay-body > p:first-of-type::first-letter {
+    font-size: 3em;
+  }
+}
+
+@media (max-width: 380px) {
+  .site-header__identity {
+    gap: 12px;
+  }
+}
+
+/* ---------- Essay body — block quotations, verse, section breaks ---------- */
+
+.essay-body blockquote {
+  margin: 1.5em 0 1.5em 2.25em;
+  padding: 0;
+  font-style: normal;
+}
+
+.essay-body blockquote p {
+  margin: 0 0 0.75em;
+}
+
+.essay-body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.verse {
+  margin: 1.5em 0 1.5em 2.25em;
+}
+
+.verse p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.section-head {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: 0.6;
+  margin: 3em 0 2em;
+}
+
+.essay-body ol {
+  margin: 1.4em 0 1.4em 2em;
+  padding: 0 0 0 1.25em;
+}
+
+.essay-body ol li {
+  margin-bottom: 0.75em;
+}
+
+.essay-body ol li:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------- Print ---------- */
+
+@media print {
+  body { background: #fff; color: #000; }
+  .back, .site-header__contact { display: none; }
+}
