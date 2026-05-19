@@ -276,6 +276,20 @@ a:focus-visible {
   max-width: 56ch;
 }
 
+.essay-disclaimer {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-style: italic;
+  color: var(--ink);
+  opacity: 0.6;
+  margin: 16px 0 0;
+  line-height: 1.5;
+}
+
+.essay-disclaimer .roman {
+  font-style: normal;
+}
+
 .essay-body {
   font-size: 19px;
   line-height: 1.75;
@@ -344,6 +358,10 @@ a:focus-visible {
 
   .essay-body > p:first-of-type::first-letter {
     font-size: 3em;
+  }
+
+  .essay-disclaimer {
+    font-size: 15px;
   }
 }
 
